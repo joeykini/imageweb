@@ -1,0 +1,242 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --brand: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+  --ring: 222.2 84% 4.9%;
+  --input: 214.3 31.8% 91.4%;
+
+  /* Gradient colors */
+  --gradient-1-start: #FF5722;
+  --gradient-1-end: #FF9800;
+  --gradient-2-start: #03A9F4;
+  --gradient-2-end: #00BCD4;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-hover: 222.2 47.4% 19.2%;
+    --secondary: 210 40% 96.1%;
+    --border: 214.3 31.8% 91.4%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --font-sans: var(--font-inter);
+    --font-mono: var(--font-roboto-mono);
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-hover: 210 40% 90%;
+    --secondary: 217.2 32.6% 17.5%;
+    --border: 217.2 32.6% 17.5%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+  }
+}
+
+.font-handwritten {
+  font-family: 'Caveat', cursive;
+}
+
+@layer components {
+  /* 漸變文本樣式 */
+  .gradient-text-1 {
+    background: linear-gradient(to right, #5E60CE, #64DFDF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .gradient-text-2 {
+    background: linear-gradient(to right, #7400B8, #6930C3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* 漸變按鈕樣式 */
+  .gradient-button {
+    background: linear-gradient(to right, #5E60CE, #64DFDF);
+    transition: all 0.3s ease;
+  }
+  
+  .gradient-button:hover {
+    background: linear-gradient(to right, #64DFDF, #5E60CE);
+    transform: translateY(-2px);
+  }
+
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  font-feature-settings: "rlig" 1, "calt" 1;
+  background-color: white;
+}
+
+body > div {
+  width: 100%;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* 確保樣式正確應用 */
+header, footer, main, section, .card, .button {
+  @apply text-foreground bg-background;
+}
+
+.btn, button:not([class]), .button {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium 
+  transition-colors focus-visible:outline-none focus-visible:ring-2 
+  focus-visible:ring-ring focus-visible:ring-offset-2 
+  disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+}
+
+.btn-primary, button:not([class]), .button {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+}
+
+.card {
+  @apply rounded-lg border bg-card text-card-foreground shadow-sm;
+}
+
+.input {
+  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 
+  text-sm ring-offset-background file:border-0 file:bg-transparent 
+  file:text-sm file:font-medium placeholder:text-muted-foreground 
+  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
+  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+@layer theme {
+  /* 修改動畫持續時間和緩動效果 */
+  .animate-accordion-down {
+    animation: accordion-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .animate-accordion-up {
+    animation: accordion-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+/* 修改關鍵幀動畫 */
+@keyframes accordion-down {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-up {
+  0% {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  100% {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+/* 通用樣式 */
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+/* 頁腳樣式 */
+footer {
+  margin-top: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* 優化容器佈局 */
+.max-w-\[64rem\], .max-w-\[75rem\] {
+  max-width: 90rem !important; /* 增加最大寬度 */
+  width: 100%;
+}
+
+/* 調整內容區域的內邊距 */
+.p-8 {
+  padding: 1rem !important; /* 進一步減少內邊距 */
+}
+
+@media (min-width: 640px) {
+  .sm\:p-8 {
+    padding: 1rem !important;
+  }
+}
+
+/* 調整垂直間距 */
+.gap-8 {
+  gap: 1rem !important;
+}
+
+.py-6, .pb-6, .pt-6 {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+}
+
+/* 調整頂部間距 */
+.pt-20, .py-20 {
+  padding-top: 4rem !important; /* 減少頂部內邊距 */
+}
+
+.sm\:pt-24, .sm\:py-24 {
+  padding-top: 4rem !important;
+}
+
+/* 增加卡片網格的佈局空間 */
+.lg\:grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(300px, 1fr)) !important;
+}
