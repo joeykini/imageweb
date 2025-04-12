@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic';
 // 定義 Window 擴展類型
 declare global {
   interface Window {
-    __clerk_frontend_api?: any;
+    __clerk_frontend_api?: string;
   }
 }
 

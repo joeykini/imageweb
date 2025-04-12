@@ -8,7 +8,7 @@ import { compare } from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
@@ -41,6 +41,10 @@ export const authOptions: NextAuthOptions = {
 
         if (!user) {
           throw new Error("用户不存在");
+        }
+
+        if (!user.password) {
+          throw new Error("该用户未设置密码，请使用其他方式登录");
         }
 
         const isPasswordValid = await compare(credentials.password, user.password);
@@ -81,7 +85,6 @@ export const authOptions: NextAuthOptions = {
       return session;
     }
   },
-};
+});
 
-const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST }; 

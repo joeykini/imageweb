@@ -37,15 +37,25 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// 用戶模型
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
+  clerkId       String?        @unique
   name          String?
-  email         String?   @unique
+  email         String?        @unique
   emailVerified DateTime?
   image         String?
+  imageUrl      String?
   password      String?
+  role          String         @default("user") // user, admin, superadmin
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   accounts      Account[]
   sessions      Session[]
+  points        Points?        // 用戶積分
+  subscription  Subscription?  // 用戶訂閱計劃
+  orders        Order[]        // 用戶訂單
+  generations   Generation[]   // 用戶生成記錄
 }
 
 model VerificationToken {
@@ -54,22 +64,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-// 用戶模型
-model User {
-  id            String         @id @default(cuid())
-  clerkId       String         @unique
-  name          String
-  email         String         @unique
-  imageUrl      String?
-  role          String         @default("user") // user, admin, superadmin
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  points        Points?        // 用戶積分
-  subscription  Subscription?  // 用戶訂閱計劃
-  orders        Order[]        // 用戶訂單
-  generations   Generation[]   // 用戶生成記錄
 }
 
 // 積分模型

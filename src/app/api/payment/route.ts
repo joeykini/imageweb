@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createPayment } from '@/lib/payment'; 
+import { createPayment, PaymentMethod } from '@/lib/payment'; 
 import { db } from '@/lib/db';
 
 // 可用的支付套餐
@@ -67,11 +67,14 @@ export async function GET(req: NextRequest) {
       });
       
       // 創建支付
-      const paymentResult = await createPayment({
-        method,
-        outTradeNo: order.id,
+      const paymentResult = await createPayment(method as PaymentMethod, {
+        userId,
         amount: parseInt(amount),
-        description: `購買 ${selectedPackage.name}`
+        pointsAmount: selectedPackage.points,
+        metadata: {
+          packageId: selectedPackage.id,
+          packageName: selectedPackage.name
+        }
       });
       
       if (!paymentResult.success) {
@@ -146,11 +149,14 @@ export async function POST(req: NextRequest) {
     });
     
     // 創建支付
-    const paymentResult = await createPayment({
-      method,
-      outTradeNo: order.id,
+    const paymentResult = await createPayment(method as PaymentMethod, {
+      userId,
       amount: selectedPackage.price,
-      description: `購買 ${selectedPackage.name}`
+      pointsAmount: selectedPackage.points,
+      metadata: {
+        packageId: selectedPackage.id,
+        packageName: selectedPackage.name
+      }
     });
     
     if (!paymentResult.success) {
